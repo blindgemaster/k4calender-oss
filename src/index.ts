@@ -1,4 +1,6 @@
 export * from './types.js'
 export * from './registry.js'
+export * from './providerRegistry.js'
+export * from './engine.js'
 export * from './adapters/stripe.js'
 export * from './adapters/google.js'
