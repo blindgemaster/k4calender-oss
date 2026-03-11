@@ -72,6 +72,7 @@ export interface CheckoutParams {
   customerEmail: string
   successUrl: string
   cancelUrl: string
+  connectedAccountId?: string  // Stripe Connect: host's Express account ID
 }
 
 export interface CheckoutSession {

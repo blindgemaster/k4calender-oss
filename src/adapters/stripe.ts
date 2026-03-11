@@ -33,6 +33,10 @@ export class StripeAdapter implements PaymentGateway {
   async createCheckout(params: CheckoutParams): Promise<CheckoutSession> {
     const stripe = await this.getStripe()
 
+    const requestOptions = params.connectedAccountId
+      ? { stripeAccount: params.connectedAccountId }
+      : {}
+
     const session = await stripe.checkout.sessions.create({
       mode: 'payment',
       line_items: [
@@ -45,12 +49,12 @@ export class StripeAdapter implements PaymentGateway {
           quantity: 1,
         },
       ],
-      customer_email: params.customerEmail,
+      customer_email: params.customerEmail || undefined,
       metadata: { bookingId: params.bookingId },
       success_url: params.successUrl,
       cancel_url: params.cancelUrl,
       expires_at: Math.floor(Date.now() / 1000) + 30 * 60, // 30 min
-    })
+    }, requestOptions)
 
     return {
       id: session.id,
